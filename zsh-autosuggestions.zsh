@@ -242,8 +242,10 @@ _zsh_autosuggest_modify() {
 
 	# Get a new suggestion if the buffer is not empty after modification
 	local suggestion
-	if [ $#BUFFER -gt 0 -a $#BUFFER -lt 20 ]; then
-		suggestion="$(_zsh_autosuggest_suggestion "$BUFFER")"
+	if [ $#BUFFER -gt 0 ]; then
+		if [ -z "$ZSH_BUFFER_MAX_SIZE" -o $#BUFFER -lt "$ZSH_BUFFER_MAX_SIZE" ]; then
+			suggestion="$(_zsh_autosuggest_suggestion "$BUFFER")"
+		fi
 	fi
 
 	# Add the suggestion to the POSTDISPLAY
